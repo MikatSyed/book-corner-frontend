@@ -8,13 +8,20 @@ const productApi = api.injectEndpoints({
         url: '/register',
         method: 'POST',
         body: credentials,
-      }),
-      
+      }),       
     }),
+    login: builder.mutation({
+        query: (credentials) => ({
+          url: '/login',
+          method: 'POST',
+          body: credentials,
+        }),
+      }),
    
   }),
 });
 
 export const {
-  useRegisterMutation
+  useRegisterMutation,
+  useLoginMutation
 } = productApi;

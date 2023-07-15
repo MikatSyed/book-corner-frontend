@@ -1,4 +1,6 @@
 import { useRegisterMutation } from '@/redux/features/user/userApi';
+import { createUser } from '@/redux/features/user/userSlice';
+import { useAppDispatch } from '@/redux/hook';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -18,23 +20,13 @@ export default function Signup() {
     formState: { errors },
     reset
   } = useForm<SignupFormInputs>();
-  const [registerUser,{isLoading,isSuccess}] = useRegisterMutation()
+  const dispatch = useAppDispatch()
   
-  
-  useEffect(()=>{
-    if(isLoading){
-     toast.loading("Loadig...",{id:"registerUser"})
-    }
-    if(isSuccess){
-     toast.success("Added Successfully",{id:"registerUser"})
-     reset();
-    }
-     
-   },[isLoading,isSuccess,])
   
   const onSubmit = (data: SignupFormInputs) => {
-    registerUser(data)
+    dispatch(createUser({email:data.email,password:data.password}))
   };
+  
   return (
     <>
 <div className="flex flex-wrap">

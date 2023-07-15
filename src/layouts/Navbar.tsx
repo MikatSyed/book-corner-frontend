@@ -1,7 +1,22 @@
+import { auth } from "@/lib/firebase";
+import { setUser } from "@/redux/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { signOut } from "firebase/auth";
 
 
 export default function Navbar() {
+  const { user } = useAppSelector((state) => state.user);
+  console.log(user)
+  
+  const dispatch = useAppDispatch();
 
+  const handleLogout = () => {
+    console.log('Logout');
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      dispatch(setUser(null));
+    });
+  };
   return (
     <header className="mb-2 px-4 shadow">
     <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -18,10 +33,19 @@ export default function Navbar() {
       </label>
       <nav aria-label="Header Navigation" className="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0">
         <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
-          <li className=""><a className="text-gray-600 hover:text-blue-600" href="#">All Book</a></li>
-          <li className=""><a className="text-gray-600 hover:text-blue-600" href="login">Signin</a></li>
-          <li className=""><a className="text-gray-600 hover:text-blue-600" href="signup">Signup</a></li>
-          <li className="mt-2 sm:mt-0"><a className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white" href="/login">Login</a></li>
+          <li className=""><a className="text-gray-600 hover:text-blue-600" href="/">Home</a></li>
+          <li className=""><a className="text-gray-600 hover:text-blue-600" href="/books">All Book</a></li>
+          {!user.email && (
+                      <> 
+                        <li className="mt-2 sm:mt-0"><a className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white" href="/login">Signin/Login</a></li>
+                      </>  
+                      )}
+          {user.email && (
+            <> <>
+            <li className="mt-2 sm:mt-0"><a className="rounded-xl border-2 border-red-600 px-6 py-2 font-medium text-red-600 hover:bg-red-600 hover:text-white"  onClick={handleLogout}>Logout</a></li>
+           </></>
+          )}
+        
         </ul>
       </nav>
     </div>
