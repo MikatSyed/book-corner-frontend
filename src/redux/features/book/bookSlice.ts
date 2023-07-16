@@ -17,6 +17,10 @@ const bookApi = api.injectEndpoints({
         
       }),       
     }),
+
+    singleBook: builder.query({
+        query: (id) => `/book/details/${id}`,
+      }),
   
    
   }),
@@ -24,5 +28,6 @@ const bookApi = api.injectEndpoints({
 
 export const {
 useAddBookMutation,
-useGetBooksQuery
+useGetBooksQuery,
+useSingleBookQuery
 } = bookApi;

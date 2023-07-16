@@ -1,4 +1,5 @@
 import { useGetBooksQuery } from "@/redux/features/book/bookSlice";
+import { Link } from "react-router-dom";
 
 
 const AllBook = () => {
@@ -13,7 +14,8 @@ const AllBook = () => {
 
   
   {books?.map((book:any)=> <>
-    <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+  <Link to={`book-details/${book._id}`}>
+  <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
         <a href="#">
             <img src={book.image}
                      alt="Product" className="h-80 w-72 object-cover rounded-t-xl" />
@@ -36,6 +38,7 @@ const AllBook = () => {
             </div>
         </a>
     </div>
+  </Link>
   </>)}
 
     
