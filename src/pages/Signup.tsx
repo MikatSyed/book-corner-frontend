@@ -1,9 +1,10 @@
 import { useRegisterMutation } from '@/redux/features/user/userApi';
 import { createUser } from '@/redux/features/user/userSlice';
-import { useAppDispatch } from '@/redux/hook';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 // type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -14,6 +15,7 @@ interface SignupFormInputs {
 }
 
 export default function Signup() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -21,11 +23,19 @@ export default function Signup() {
     reset
   } = useForm<SignupFormInputs>();
   const dispatch = useAppDispatch()
-  
+  const { user } = useAppSelector((state) => state.user);
   
   const onSubmit = (data: SignupFormInputs) => {
     dispatch(createUser({email:data.email,password:data.password}))
+    reset();
   };
+  useEffect(()=>{
+ 
+    if (user?.email) {
+      toast.success('Registration Successfull',{id:"registerUser"})
+      navigate("/login")
+    } 
+  },[user])
   
   return (
     <>

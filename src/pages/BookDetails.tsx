@@ -1,12 +1,14 @@
 import { useSingleBookQuery } from "@/redux/features/book/bookSlice";
+import { useAppSelector } from "@/redux/hook";
 import { useParams } from "react-router-dom";
 
 
 const BookDetails = () => {
     const { id } = useParams();
-
+    const { user } = useAppSelector((state) => state.user);
+    console.log(user.email);
     const { data: bookData, isLoading, error } = useSingleBookQuery(id);
-  
+    console.log(bookData?.data[0].publisher);
     return (
       <>
         <section className="text-gray-700 body-font overflow-hidden bg-white">
@@ -59,13 +61,13 @@ const BookDetails = () => {
           
           
           </div>
-          <div className="flex">
+          {user.email === bookData?.data[0].publisher && <><div className="flex">
             <span className="title-font font-medium text-2xl text-gray-900">${book.price}</span>
             <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Edit</button>
             <button className=" ml-2 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
              Delete
             </button>
-          </div>
+          </div></>}
         </div>
       </div></>)
     }

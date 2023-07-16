@@ -14,9 +14,9 @@ const AllBook = () => {
 
   
   {books?.map((book:any)=> <>
-  <Link to={`book-details/${book._id}`}>
+  
   <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-        <a href="#">
+  <Link to={`/book/${book._id}`}>
             <img src={book.image}
                      alt="Product" className="h-80 w-72 object-cover rounded-t-xl" />
             <div className="px-4 py-3 w-72">
@@ -36,9 +36,9 @@ const AllBook = () => {
                 </div>
                 <p className="font-medium mr-3 uppercase text-xs">{book.publicationDate}</p>
             </div>
-        </a>
+            </Link>
     </div>
-  </Link>
+ 
   </>)}
 
     

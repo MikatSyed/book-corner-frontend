@@ -4,7 +4,7 @@ import AllBook from './AllBook';
 export default function Home() {
   return (
     <>
-      <AllBook/>
+     
       <Footer />
     </>
   );
