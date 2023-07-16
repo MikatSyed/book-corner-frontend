@@ -1,6 +1,7 @@
 import { api } from '@/redux/api/apiSlice';
 
 const bookApi = api.injectEndpoints({
+ 
   endpoints: (builder) => ({
   
     addBook: builder.mutation({
@@ -8,18 +9,21 @@ const bookApi = api.injectEndpoints({
         url: '/book',
         method: 'POST',
         body: data,
-      }),       
+      }),
+      invalidatesTags: ["Books"] 
     }),
     getBooks: builder.query({
       query: () => ({
         url: '/books',
         method: 'GET',
         
-      }),       
+      }), 
+      providesTags:["Books"]      
     }),
 
     singleBook: builder.query({
         query: (id) => `/book/details/${id}`,
+        providesTags:["Books"]     
       }),
     updateBook: builder.mutation({
         query: ({id,...bookData})=> ({
@@ -27,6 +31,7 @@ const bookApi = api.injectEndpoints({
         method: 'PATCH',
         body:bookData
         }),
+        invalidatesTags: ["Books"] 
         
     }),
   

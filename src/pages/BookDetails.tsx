@@ -1,5 +1,6 @@
 import { useSingleBookQuery } from "@/redux/features/book/bookSlice";
 import { useAppSelector } from "@/redux/hook";
+import { useEffect } from "react";
 import { useParams,Link, useNavigate } from "react-router-dom"
 
 const BookDetails = () => {
@@ -9,6 +10,7 @@ const BookDetails = () => {
     const { data: bookData, isLoading, error } = useSingleBookQuery(id);
 
 
+    
     
     return (
       <>
