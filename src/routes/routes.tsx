@@ -5,6 +5,7 @@ import NotFound from '@/pages/NotFound';
 import Home from '@/pages/Home';
 import Signup from '@/pages/Signup';
 import AddBook from '@/pages/AddBook';
+import PrivateRoute from './PrivateRoute';
 
 
 
@@ -17,7 +18,10 @@ const routes = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-      
+      {
+        path: '/add-book',
+        element: <PrivateRoute path="/add-book"> <AddBook /></PrivateRoute>,
+      },
     
     ],
   },
@@ -29,10 +33,7 @@ const routes = createBrowserRouter([
     path: '/signup',
     element: <Signup />,
   },
-  {
-    path: '/add-book',
-    element:<AddBook />,
-  },
+ 
   {
     path: '*',
     element: <NotFound />,
