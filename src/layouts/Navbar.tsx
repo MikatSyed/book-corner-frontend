@@ -35,15 +35,21 @@ export default function Navbar() {
         <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/">Home</a></li>
           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/books">All Book</a></li>
+          {user.email && (
+            <> 
+           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/add-book">Add New Book</a></li>
+           </>
+          )}
+
           {!user.email && (
                       <> 
                         <li className="mt-2 sm:mt-0"><a className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white" href="/login">Signin/Login</a></li>
                       </>  
                       )}
           {user.email && (
-            <> <>
+            <> 
             <li className="mt-2 sm:mt-0"><a className="rounded-xl border-2 border-red-600 px-6 py-2 font-medium text-red-600 hover:bg-red-600 hover:text-white"  onClick={handleLogout}>Logout</a></li>
-           </></>
+           </>
           )}
         
         </ul>
