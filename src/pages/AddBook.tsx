@@ -1,7 +1,8 @@
-import Navbar from "@/layouts/Navbar";
-import { useAppDispatch } from "@/redux/hook";
+import { useAddBookMutation } from "@/redux/features/book/bookSlice";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {Link, useNavigate} from 'react-router-dom'
+import { toast } from "react-hot-toast";
+import {Link} from 'react-router-dom'
 
 interface addBookFormInputs {
     title: string;
@@ -15,6 +16,7 @@ interface addBookFormInputs {
   }
 
 const AddBook = () => {
+  const [postBook,{isSuccess,isLoading}] = useAddBookMutation()
     
     const {
         register,
@@ -22,10 +24,20 @@ const AddBook = () => {
         formState: { errors },
         reset
       } = useForm<addBookFormInputs>();
-      const dispatch = useAppDispatch()
+    
+      useEffect(()=>{
+        if(isLoading){
+         toast.loading("Posting...",{id:"addProduct"})
+        }
+        if(isSuccess){
+         toast.success("Added Successfully",{id:"addProduct"})
+         reset();
+        }
+       
+       },[isLoading,isSuccess])
 
     const onSubmit = (data: addBookFormInputs) => {
-       console.log(data);
+      postBook(data);
       };
       
     return (
@@ -35,26 +47,27 @@ const AddBook = () => {
         <form  onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-3 md:pt-8">
         <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
           <p className="shrink-0 w-32 font-medium">Title</p>
-          <input placeholder="Title" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"  {...register('title', { required: 'Title is required' })} />
+          <input placeholder="enter book title..." className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"  {...register('title', { required: 'Title is required' })} />
           {errors.title && <p>{errors.title.message}</p>}
         </div>
         <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
           <p className="shrink-0 w-32 font-medium">Price</p>
-          <input placeholder="Price" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('price', { required: 'Price is required' })} />
+          <input placeholder="enter book price..." className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('price', { required: 'Price is required' })} />
           {errors.price && <p>{errors.price.message}</p>}
         </div>
         <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
           <p className="shrink-0 w-32 font-medium">Author</p>
-          <input placeholder="Author" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"  {...register('author', { required: 'Author is required' })} />
+          <input placeholder="enter book author name..." className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"  {...register('author', { required: 'Author is required' })} />
           {errors.author && <p>{errors.author.message}</p>}
         </div>
         <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
           <p className="shrink-0 w-32 font-medium">Image</p>
-          <input placeholder="Image" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('image')}/>
+          <input placeholder="enter book image url..." className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('image')}/>
         </div>
         <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
           <p className="shrink-0 w-32 font-medium">Genre</p>
           <select  className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('genre')}>
+            <option value=''>choose a genre</option>
             <option value='mystery'>Mystery</option>
             <option value='thriller'>Thriller</option>
             <option value='romance'>Romance</option>
@@ -69,11 +82,11 @@ const AddBook = () => {
         </div>
         <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
           <p className="shrink-0 w-32 font-medium">Publication Date</p>
-          <input placeholder="publication date" type="date" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('publicationDate', { required: 'publication date is required' })} />
+          <input  type="date" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('publicationDate', { required: 'publication date is required' })} />
         </div>
         <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
           <p className="shrink-0 w-32 font-medium">Publication Year</p>
-          <input placeholder="publicationYear" type="number" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"  {...register('publicationYear', { required: 'publication year is required' })} />
+          <input placeholder="enter publication year..." type="number" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"  {...register('publicationYear', { required: 'publication year is required' })} />
           {errors.publicationYear && <p>{errors.publicationYear.message}</p>}
         </div>
      
