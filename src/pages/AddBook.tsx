@@ -1,4 +1,5 @@
 import { useAddBookMutation } from "@/redux/features/book/bookSlice";
+import { useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -11,12 +12,14 @@ interface addBookFormInputs {
     author: string;
     genre: string;
     publicationDate: string;
-    publicationYear: number;
+    publisher:string;
  
   }
 
 const AddBook = () => {
   const [postBook,{isSuccess,isLoading}] = useAddBookMutation()
+  const { user } = useAppSelector((state) => state.user);
+
     
     const {
         register,
@@ -37,7 +40,7 @@ const AddBook = () => {
        },[isLoading,isSuccess])
 
     const onSubmit = (data: addBookFormInputs) => {
-      postBook(data);
+     postBook(data);
       };
       
     return (
@@ -68,27 +71,27 @@ const AddBook = () => {
           <p className="shrink-0 w-32 font-medium">Genre</p>
           <select  className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('genre')}>
             <option value=''>choose a genre</option>
-            <option value='mystery'>Mystery</option>
-            <option value='thriller'>Thriller</option>
-            <option value='romance'>Romance</option>
-            <option value='science fiction'>Science Fiction</option>
-            <option value='fantasy'>Fantasy</option>
-            <option value='crime'>Crime</option>
-            <option value='horror'>Horror</option>
-            <option value='drama'>Drama</option>
-            <option value='comedy'>Comedy</option>
-            <option value='travel'>Travel</option>
+            <option value='Mystery'>Mystery</option>
+            <option value='Thriller'>Thriller</option>
+            <option value='Romance'>Romance</option>
+            <option value='Science fiction'>Science Fiction</option>
+            <option value='Fantasy'>Fantasy</option>
+            <option value='Crime'>Crime</option>
+            <option value='Horror'>Horror</option>
+            <option value='Drama'>Drama</option>
+            <option value='Comedy'>Comedy</option>
+            <option value='Travel'>Travel</option>
           </select>
         </div>
         <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
           <p className="shrink-0 w-32 font-medium">Publication Date</p>
           <input  type="date" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1" {...register('publicationDate', { required: 'publication date is required' })} />
         </div>
-        <div className="flex flex-col gap-3 border-b py-4 sm:flex-row">
-          <p className="shrink-0 w-32 font-medium">Publication Year</p>
-          <input placeholder="enter publication year..." type="number" className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"  {...register('publicationYear', { required: 'publication year is required' })} />
-          {errors.publicationYear && <p>{errors.publicationYear.message}</p>}
+
+        <div style={{display: 'none'}} >
+          <input  type="email" defaultValue={user?.email!}  {...register('publisher')} />
         </div>
+    
      
         <div className="flex flex-col border-b py-4 sm:flex-row sm:items-start">
          

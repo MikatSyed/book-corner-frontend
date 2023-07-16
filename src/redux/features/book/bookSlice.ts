@@ -10,11 +10,19 @@ const bookApi = api.injectEndpoints({
         body: data,
       }),       
     }),
+    getBooks: builder.query({
+      query: () => ({
+        url: '/books',
+        method: 'GET',
+        
+      }),       
+    }),
   
    
   }),
 });
 
 export const {
-useAddBookMutation
+useAddBookMutation,
+useGetBooksQuery
 } = bookApi;

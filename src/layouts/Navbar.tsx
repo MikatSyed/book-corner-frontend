@@ -6,7 +6,7 @@ import { signOut } from "firebase/auth";
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.user);
-  console.log(user)
+  // console.log(user)
   
   const dispatch = useAppDispatch();
 
