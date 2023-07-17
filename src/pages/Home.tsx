@@ -31,8 +31,18 @@ export default function Home() {
   const books = data?.data;
 
   const dispatch = useAppDispatch()
-  const handleAddBook = (product: IBook) => {
-    addToWishList(product).unwrap().then((newItem) => {
+  const handleAddBook = (book: IBook) => {
+    const newItem = {
+      _id: book._id,
+      title: book.title,
+      image: book.image,
+      author: book.author,
+      genre: book.genre,
+      price:book.price,
+      publicationDate: book.publicationDate,
+      quantity: 1
+    };
+    addToWishList(newItem).unwrap().then((newItem) => {
     dispatch(addTowishList(newItem))
     toast.success("Added To WishList",{id:"addToWishList"});
     })

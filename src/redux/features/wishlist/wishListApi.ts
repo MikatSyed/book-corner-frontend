@@ -11,10 +11,14 @@ const wishListApi = api.injectEndpoints({
           body: item,
         }),
       }),
+     getWistList: builder.query({
+        query: () => '/wishlist',
+      }),
    
   }),
 });
 
 export const {
-useAddToWishListMutation
+useAddToWishListMutation,
+useGetWistListQuery
 } = wishListApi;
