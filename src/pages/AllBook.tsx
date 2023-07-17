@@ -1,4 +1,5 @@
 import { useGetBooksQuery } from "@/redux/features/book/bookSlice";
+import { IBook } from "@/types/globalTypes";
 import { Link } from "react-router-dom";
 
 
@@ -13,7 +14,7 @@ const AllBook = () => {
     className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
 
   
-  {books?.map((book:any)=> <>
+  {books?.map((book:IBook)=> <>
   
   <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
   <Link to={`/book/${book._id}`}>

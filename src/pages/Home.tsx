@@ -1,41 +1,111 @@
 import Footer from "@/layouts/Footer";
 import { useGetLatestBooksQuery } from "@/redux/features/book/bookSlice";
 import { Link } from "react-router-dom";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+  Tooltip,
+  IconButton,
+} from "@material-tailwind/react";
+import {
+  BanknotesIcon,
+  StarIcon,
+  HeartIcon,
+  WifiIcon,
+  HomeIcon,
+  TvIcon,
+  FireIcon,
+} from "@heroicons/react/24/solid";
+import { IBook } from "@/types/globalTypes";
+import { useAppDispatch } from "@/redux/hook";
+import { addTowishList } from "@/redux/features/wishlist/wishlistSlice";
+import { toast } from "react-hot-toast";
+import { useAddToWishListMutation } from "@/redux/features/wishlist/wishListApi";
 export default function Home() {
+  const [addToWishList] = useAddToWishListMutation();
   const { data, error, isLoading } = useGetLatestBooksQuery(undefined)
   const books = data?.data;
 
+  const dispatch = useAppDispatch()
+  const handleAddBook = (product: IBook) => {
+    addToWishList(product).unwrap().then((newItem) => {
+    dispatch(addTowishList(newItem))
+    toast.success("Added To WishList",{id:"addToWishList"});
+    })
+  };
+
   return (
     <>
-     <section id="Projects"
-    className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
+     <section 
+    className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-10 mt-10 mb-5">
 
   
-  {books?.map((book:any)=> <>
+  {books?.map((book:IBook)=> <>
   
-  <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-  <Link to={`/book/${book._id}`}>
-            <img src={book.image}
-                     alt="Product" className="h-80 w-72 object-cover rounded-t-xl" />
-            <div className="px-4 py-3 w-72">
-                <span className="text-gray-600 mr-3 uppercase text-xs italic">{book.author}</span>
-                <p className="text-lg font-bold text-black truncate block capitalize">{book.title}</p>
-                <div className="flex items-center">
-                    <p className="text-lg font-semibold text-black cursor-auto my-3">{book.genre}</p>
-                   
-                    
-                    <div className="ml-auto"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            fill="currentColor" className="bi bi-bag-plus" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z" />
-                            <path
-                                d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
-                        </svg></div>
-                </div>
-                <p className="font-medium mr-3 uppercase text-xs">{book.publicationDate}</p>
-            </div>
+    <Card className="w-full max-w-[25rem] h-[35rem] shadow-lg">
+      <CardHeader floated={false} color="blue-gray">
+        <img
+          src={book.image}
+         className="h-[20rem] w-full"
+        />
+        <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+        <IconButton
+          size="sm"
+          color="red"
+          variant="text"
+          className="!absolute top-4 right-4 rounded-full"
+        >
+          <HeartIcon className="h-6 w-6" />
+        </IconButton>
+      </CardHeader>
+      <CardBody>
+      <Typography color="gray">
+          {book.author}
+  
+        </Typography>
+        <div className="mb-3 flex items-center justify-between">
+          <Typography variant="h5" color="blue-gray" className="font-medium">
+           {book.title}
+          </Typography>
+          
+          <Typography
+            className="flex items-center gap-1.5 font-normal text-blue-300"
+          >
+           {book.publicationDate}
+          </Typography>
+          
+        </div>
+       
+        <Typography color="gray" className="text-gray-600 mr-3 uppercase text-xs ">
+          {book.genre}
+        </Typography>
+        <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
+          <Tooltip content="Book Details Page">
+          <Link to={`/book/${book._id}`}>
+            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
+             Details
+            </span>
             </Link>
-    </div>
+          </Tooltip>
+          <Tooltip content="Wishlist Page">
+            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70" onClick={() => handleAddBook(book)}>
+              Wistlist
+            </span>
+          </Tooltip>
+          <Tooltip content="Readinglist Page">
+            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
+             Readinglist
+            </span>
+          </Tooltip>
+       
+      
+        </div>
+      </CardBody>
+    </Card>
  
   </>)}
 

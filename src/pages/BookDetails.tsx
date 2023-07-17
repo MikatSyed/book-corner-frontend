@@ -29,7 +29,7 @@ const BookDetails = () => {
             'success'
           )
           deleteBook(id)
-          navigate('/books')
+          navigate('/all-books')
         }
       })
      }
