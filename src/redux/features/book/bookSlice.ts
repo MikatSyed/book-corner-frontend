@@ -59,7 +59,10 @@ const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ['Comments'],
     }),
-  
+    getComment: builder.query({
+      query: (id) => `/comment/${id}`,
+      providesTags: ['Comments'],
+    }),
    
   }),
 });
@@ -71,5 +74,6 @@ useGetLatestBooksQuery,
 useSingleBookQuery,
 useUpdateBookMutation,
 useDeleteBookMutation,
-usePostCommentMutation
+usePostCommentMutation,
+useGetCommentQuery
 } = bookApi;

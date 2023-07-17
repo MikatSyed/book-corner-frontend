@@ -1,4 +1,4 @@
-import { usePostCommentMutation } from '@/redux/features/book/bookSlice';
+import { useGetCommentQuery, usePostCommentMutation } from '@/redux/features/book/bookSlice';
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { FiSend } from 'react-icons/fi';
 
@@ -9,7 +9,9 @@ interface IProps {
 }
 
 export default function BookReview({ id }: IProps) {
-
+    const { data } = useGetCommentQuery(id, {
+        refetchOnMountOrArgChange: true
+      });
   const [postComment, { isLoading, isError, isSuccess }] =
   usePostCommentMutation();
   console.log(isLoading);
@@ -17,7 +19,10 @@ export default function BookReview({ id }: IProps) {
   console.log(isSuccess);
 
   const [inputValue, setInputValue] = useState<string>('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  console.log(inputValue);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    console.log(event);
     event.preventDefault();
    
     
@@ -32,6 +37,7 @@ export default function BookReview({ id }: IProps) {
   };
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setIsButtonDisabled(false)
     setInputValue(event.target.value);
   };
 
@@ -46,11 +52,22 @@ export default function BookReview({ id }: IProps) {
         <button
           type="submit"
           className="rounded-full h-10 w-10 p-2 text-[25px]"
+          disabled={isButtonDisabled}
         >
           <FiSend />
         </button>
       </form>
-      
+      <div className="mt-10">
+        {data?.comments?.map((comment: string, index: number) => (
+          <div key={index} className="flex gap-3 items-center mb-5">
+            {/* <avatar>
+              <avatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </avatar> */}
+            <p>{comment}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
