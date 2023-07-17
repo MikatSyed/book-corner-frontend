@@ -3,6 +3,7 @@ import { useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 import { useParams,Link, useNavigate } from "react-router-dom"
 import Swal from 'sweetalert2'
+import BookReview from "./BookReview";
 
 const BookDetails = () => {
     const { id } = useParams();
@@ -38,7 +39,7 @@ const BookDetails = () => {
   <div className="container px-5 py-24 mx-auto">
     {
         bookData?.data?.map((book:any)=><>   <div className="lg:w-4/5 mx-auto flex flex-wrap">
-        <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={book.image}/>
+        <img alt="ecommerce" className="lg:w-1/3  w-full object-cover object-center rounded border border-gray-200" src={book.image}/>
         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
           <h2 className="text-sm title-font text-gray-500 tracking-widest">{book.author}</h2>
           <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{book.title}</h1>
@@ -84,6 +85,7 @@ const BookDetails = () => {
     }
   </div>
 </section>
+<BookReview id={id!} />
       </>
     );
 };
