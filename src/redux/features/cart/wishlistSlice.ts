@@ -1,5 +1,6 @@
 import { IBook } from "@/types/globalTypes";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-hot-toast";
 
 interface IwishList{
     books : IBook[];
@@ -16,26 +17,25 @@ const wishListSlice = createSlice({
     initialState,
     reducers: {
         addTowishList: (state,action:PayloadAction<IBook>)=>{
-            const existing = state.books.find((product)=> product._id === action.payload._id)
+            const existing = state.books.find((book)=> book._id === action.payload._id)
             if(existing){
-            existing.quantity! +=  1
+            toast.error("Already Added in Wishlist",{id:"addToWishList"})
             }else{
-            state.books.push({...action.payload,quantity:1})
+            state.books.push({...action.payload})
             }
-            state.total += action.payload.price;
+            
         },
         removeByOne:(state,action:PayloadAction<IBook>)=>{
-            const existing = state.books.find((product)=> product._id === action.payload._id)
+            const existing = state.books.find((book)=> book._id === action.payload._id)
             if(existing && existing.quantity! > 1){
             existing.quantity! -=  1
             }else{
-                state.books = state.books.filter((product)=> product._id !== action.payload._id)
+                state.books = state.books.filter((book)=> book._id !== action.payload._id)
             }
             state.total -= action.payload.price;
         },
         removeFromwishList:(state,action:PayloadAction<IBook>)=>{
-        state.books = state.books.filter((product)=> product._id !== action.payload._id);
-        state.total -= action.payload.price * action.payload.quantity! || 0;
+        state.books = state.books.filter((book)=> book._id !== action.payload._id);
         }
         
     }

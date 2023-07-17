@@ -21,33 +21,38 @@ import {
   FireIcon,
 } from "@heroicons/react/24/solid";
 import { IBook } from "@/types/globalTypes";
-import { useAppDispatch } from "@/redux/hook";
-import { addTowishList } from "@/redux/features/wishlist/wishlistSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { addTowishList } from "@/redux/features/cart/wishlistSlice";
 import { toast } from "react-hot-toast";
-import { useAddToWishListMutation } from "@/redux/features/wishlist/wishListApi";
+import { useAddToWishListMutation } from "@/redux/features/cart/wishListApi";
+import { useEffect } from "react";
 export default function Home() {
-  const [addToWishList] = useAddToWishListMutation();
-  const { data, error, isLoading } = useGetLatestBooksQuery(undefined)
+  const [addToWishList,{isSuccess,isError,error}] = useAddToWishListMutation();
+  const { data } = useGetLatestBooksQuery(undefined)
+  const { user } = useAppSelector((state) => state.user);
   const books = data?.data;
 
   const dispatch = useAppDispatch()
   const handleAddBook = (book: IBook) => {
-    const newItem = {
-      _id: book._id,
-      title: book.title,
+    const newWishList = {
+      bookId: book._id,
+      title : book.title,
       image: book.image,
       author: book.author,
       genre: book.genre,
-      price:book.price,
-      publicationDate: book.publicationDate,
-      quantity: 1
-    };
-    addToWishList(newItem).unwrap().then((newItem) => {
-    dispatch(addTowishList(newItem))
-    toast.success("Added To WishList",{id:"addToWishList"});
-    })
+      price: book.price,
+      wishlistedBy: user.email
+    }
+    addToWishList(newWishList)
   };
-
+useEffect(()=>{
+if(isSuccess){
+ toast.success('Added to wishlist',{id:"addToWishList"})
+}
+if(isError){
+ toast.error('Already Added in wishlist',{id:"addToWishList"})
+}
+},[isSuccess,isError])
   return (
     <>
      <section 

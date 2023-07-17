@@ -1,15 +1,28 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { useGetWistListQuery } from '@/redux/features/wishlist/wishListApi'
 import { IBook } from '@/types/globalTypes'
+import { useGetWistListQuery, useRemoveFromWishListMutation } from '@/redux/features/cart/wishListApi'
+import { useAppDispatch } from '@/redux/hook'
+import { removeFromwishList } from '@/redux/features/cart/wishlistSlice'
 
 
 
 export default function WishList() {
   const [open, setOpen] = useState(true)
+  const dispatch = useAppDispatch()
   const { data: wishListItems } = useGetWistListQuery(undefined)
-  wishListItems?.map((data:IBook)=>console.log(data));
+  console.log(wishListItems?.data);
+  const [removedFromWishList] = useRemoveFromWishListMutation();
+
+//   const handleRemoveItem = (itemId:any) => {
+//     removedFromWishList(itemId)
+//       .unwrap()
+//       .then(() => {
+//         // dispatch(removeFromwishList(itemId));
+//       });
+//   };
+
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -58,7 +71,7 @@ export default function WishList() {
                       <div className="mt-8">
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {wishListItems?.map((item:IBook) => (
+                            {wishListItems?.data?.map((item:IBook) => (
                               <li key={item?._id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
@@ -79,12 +92,13 @@ export default function WishList() {
                                    
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">Qty {item?.quantity}</p>
+                                  
 
                                     <div className="flex">
                                       <button
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
+                                       onClick={() =>  removedFromWishList(item?.bookId)}
                                       >
                                         Remove
                                       </button>
