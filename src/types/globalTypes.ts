@@ -8,5 +8,10 @@ export interface IBook {
     image: string;
     quantity?: number;
     bookId?:string;
+    wishlistedBy?: string;
+    readinglistedBy?:string;
+    isPlanToRead?: boolean,
+    isReading?: boolean,
+    isFinished?: boolean,
   }
   

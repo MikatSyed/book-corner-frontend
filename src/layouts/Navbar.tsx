@@ -35,7 +35,16 @@ export default function Navbar() {
         <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/">Home</a></li>
           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/all-books">All Book</a></li>
+          {user.email && (
+            <> 
           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/wishlist">Wishlist</a></li>
+          </>
+          )}
+          {user.email && (
+            <> 
+          <li className=""><a className="text-gray-600 hover:text-blue-600" href="/readinglist">Readinglist</a></li>
+          </>
+          )}
           {user.email && (
             <> 
            <li className=""><a className="text-gray-600 hover:text-blue-600" href="/add-book">Add New Book</a></li>

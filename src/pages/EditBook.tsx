@@ -37,7 +37,7 @@ const EditBook = () => {
         }
         if(isSuccess){
          toast.success("Edited Successfully",{id:"EditProduct"})
-         navigate('/books')
+         navigate('/all-books')
         }
        
        },[isLoading,isSuccess])

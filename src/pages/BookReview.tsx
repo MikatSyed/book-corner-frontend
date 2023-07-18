@@ -1,4 +1,5 @@
 import { useGetCommentQuery, usePostCommentMutation } from '@/redux/features/book/bookSlice';
+import { useAppSelector } from '@/redux/hook';
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { FiSend } from 'react-icons/fi';
 
@@ -9,6 +10,7 @@ interface IProps {
 }
 
 export default function BookReview({ id }: IProps) {
+  const { user } = useAppSelector((state) => state.user);
     const { data } = useGetCommentQuery(id, {
         refetchOnMountOrArgChange: true
       });
@@ -43,6 +45,8 @@ export default function BookReview({ id }: IProps) {
 
   return (
     <div className="max-w-7xl mx-auto mt-5">
+        {user.email && (
+                      <> 
       <form className="flex gap-5 items-center" onSubmit={handleSubmit}>
         <textarea
           className="min-h-[30px]"
@@ -57,6 +61,8 @@ export default function BookReview({ id }: IProps) {
           <FiSend />
         </button>
       </form>
+      </>
+        )}
       <div className="mt-10">
         {data?.comments?.map((comment: string, index: number) => (
           <div key={index} className="flex gap-3 items-center mb-5">
