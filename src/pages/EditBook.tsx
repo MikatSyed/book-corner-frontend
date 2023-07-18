@@ -1,4 +1,4 @@
-import { useUpdateBookMutation,useSingleBookQuery } from "@/redux/features/book/bookSlice";
+import { useUpdateBookMutation,useSingleBookQuery } from "@/redux/features/book/bookApi";
 import { useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";

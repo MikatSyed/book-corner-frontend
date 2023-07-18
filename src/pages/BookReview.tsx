@@ -1,5 +1,6 @@
-import { useGetCommentQuery, usePostCommentMutation } from '@/redux/features/book/bookSlice';
+import { useGetCommentQuery, usePostCommentMutation } from '@/redux/features/book/bookApi';
 import { useAppSelector } from '@/redux/hook';
+import { Button, Textarea } from '@material-tailwind/react';
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { FiSend } from 'react-icons/fi';
 
@@ -48,18 +49,24 @@ export default function BookReview({ id }: IProps) {
         {user.email && (
                       <> 
       <form className="flex gap-5 items-center" onSubmit={handleSubmit}>
-        <textarea
+        {/* <textarea
           className="min-h-[30px]"
           onChange={handleChange}
           value={inputValue}
-        />
-        <button
+        /> */}
+          <div className="w-full h-['20rem']">
+      <Textarea label="Comment"   className="min-h-[30px]"
+          onChange={handleChange}
+          value={inputValue} />
+    </div>
+        <Button
           type="submit"
           className="rounded-full h-10 w-10 p-2 text-[25px]"
+          color='blue'
           disabled={isButtonDisabled}
         >
           <FiSend />
-        </button>
+        </Button>
       </form>
       </>
         )}

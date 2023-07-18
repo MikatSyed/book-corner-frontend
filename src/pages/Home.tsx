@@ -1,5 +1,4 @@
-import Footer from "@/layouts/Footer";
-import { useGetLatestBooksQuery } from "@/redux/features/book/bookSlice";
+import { useGetLatestBooksQuery } from "@/redux/features/book/bookApi";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -11,51 +10,70 @@ import {
   Tooltip,
   IconButton,
 } from "@material-tailwind/react";
-import {
-  BanknotesIcon,
-  StarIcon,
-  HeartIcon,
-  WifiIcon,
-  HomeIcon,
-  TvIcon,
-  FireIcon,
-} from "@heroicons/react/24/solid";
 import { IBook } from "@/types/globalTypes";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { addTowishList } from "@/redux/features/cart/wishlistSlice";
 import { toast } from "react-hot-toast";
 import { useAddToWishListMutation } from "@/redux/features/cart/wishListApi";
 import { useEffect } from "react";
-export default function Home() {
-  const [addToWishList,{isSuccess,isError,error}] = useAddToWishListMutation();
-  const { data } = useGetLatestBooksQuery(undefined)
-  const { user } = useAppSelector((state) => state.user);
-  const books = data?.data;
+import { useAddToReadingListMutation } from "@/redux/features/cart/readingListApi";
+import Footer from "@/layouts/Footer";
+import { BsFillBookmarkFill } from "react-icons/bs";
+import Header from "@/layouts/Header";
 
-  const dispatch = useAppDispatch()
-  const handleAddBook = (book: IBook) => {
-    const newWishList = {
-      bookId: book._id,
-      title : book.title,
-      image: book.image,
-      author: book.author,
-      genre: book.genre,
-      price: book.price,
-      wishlistedBy: user.email
-    }
-    addToWishList(newWishList)
-  };
-useEffect(()=>{
-if(isSuccess){
- toast.success('Added to wishlist',{id:"addToWishList"})
-}
-if(isError){
- toast.error('Already Added in wishlist',{id:"addToWishList"})
-}
-},[isSuccess,isError])
-  return (
-    <>
-     <section 
+const AllBook = () => {
+    const { data} = useGetLatestBooksQuery(undefined)
+    const books = data?.data;
+    const [addToWishList,{isSuccess,isError}] = useAddToWishListMutation();
+    const [addToReadingList,{isSuccess:readingSucess,isError:readingError}] = useAddToReadingListMutation();
+    const { user } = useAppSelector((state) => state.user);
+    const handleAddWishListBook = (book: IBook) => {
+      const newWishListBook = {
+        bookId: book._id,
+        title : book.title,
+        image: book.image,
+        author: book.author,
+        genre: book.genre,
+        price: book.price,
+        wishlistedBy: user.email
+      }
+      addToWishList(newWishListBook)
+    };
+    const handleAddReadingListBook = (book: IBook) => {
+      const newReadingListBook = {
+        bookId: book._id,
+        title : book.title,
+        image: book.image,
+        author: book.author,
+        publicationDate: book.publicationDate,
+        genre: book.genre,
+        price: book.price,
+        readinglistedBy: user.email,
+        isPlanToRead: false,
+        isReading: false,
+        isFinished: false,
+      }
+      addToReadingList(newReadingListBook)
+    };
+  useEffect(()=>{
+  if(isSuccess){
+   toast.success('Added to wishlist',{id:"addToWishList"})
+  }
+  if(isError){
+   toast.error('Already Added in wishlist',{id:"addToWishList"})
+  }
+  if(readingSucess){
+   toast.success('Added to readinglist',{id:"addToReadingList"})
+  }
+  if(readingError){
+   toast.error('Already Added in readinglist',{id:"addToReadingList"})
+  }
+  },[isSuccess,isError,readingSucess,readingError])
+    return (   
+  <>
+  <Header/>
+ <div className="col-span-10 grid grid-cols-1 gap-10 pb-20">
+      <section 
     className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-10 mt-10 mb-5">
 
   
@@ -74,7 +92,7 @@ if(isError){
           variant="text"
           className="!absolute top-4 right-4 rounded-full"
         >
-          <HeartIcon className="h-6 w-6" />
+          {/* <HeartIcon className="h-6 w-6" /> */}
         </IconButton>
       </CardHeader>
       <CardBody>
@@ -107,12 +125,12 @@ if(isError){
             </Link>
           </Tooltip>
           <Tooltip content="Wishlist Page">
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70" onClick={() => handleAddBook(book)}>
+            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70" onClick={() => handleAddWishListBook(book)}>
               Wistlist
             </span>
           </Tooltip>
           <Tooltip content="Readinglist Page">
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
+            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70" onClick={() => handleAddReadingListBook(book)}>
              Readinglist
             </span>
           </Tooltip>
@@ -127,7 +145,11 @@ if(isError){
     
 
 </section>
-      <Footer />
-    </>
-  );
-}
+      </div>
+<Footer/>
+  </>
+     
+    );
+};
+
+export default AllBook;

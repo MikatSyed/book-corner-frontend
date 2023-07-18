@@ -1,4 +1,4 @@
-import { useGetBooksQuery } from "@/redux/features/book/bookSlice";
+import { useGetBooksQuery, useSearchBooksQuery } from "@/redux/features/book/bookApi";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -9,6 +9,9 @@ import {
   Button,
   Tooltip,
   IconButton,
+  Input,
+  Checkbox,
+  Slider,
 } from "@material-tailwind/react";
 import {
   BanknotesIcon,
@@ -24,15 +27,42 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { addTowishList } from "@/redux/features/cart/wishlistSlice";
 import { toast } from "react-hot-toast";
 import { useAddToWishListMutation } from "@/redux/features/cart/wishListApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAddToReadingListMutation } from "@/redux/features/cart/readingListApi";
+import { genreConstant } from "@/utils/filterConstant";
+import { setGenre,setYearRange } from "@/redux/features/book/bookSlice";
 
 const AllBook = () => {
-    const { data} = useGetBooksQuery(undefined)
-    const books = data?.data;
+  const dispatch = useAppDispatch();
+    const { data:allBooks ,isFetching: isFetchingAllBooks} = useGetBooksQuery(undefined)
     const [addToWishList,{isSuccess,isError}] = useAddToWishListMutation();
     const [addToReadingList,{isSuccess:readingSucess,isError:readingError}] = useAddToReadingListMutation();
     const { user } = useAppSelector((state) => state.user);
+    const [searchTerm, setSearchTerm] = useState('');
+    const { data: searchedBooks, isFetching: isFetchingSearchedBooks } = useSearchBooksQuery(searchTerm);
+    const { genres,yearRange } = useAppSelector(state => state.book);
+    console.log({yearRange});
+    console.log(genres);
+    let books;
+    if (genres?.length !== 0 ) {
+       
+        books = allBooks?.data?.filter((book: { genre: string }) => genres?.includes(book?.genre));
+        console.log(books?.data);
+    }else if(yearRange !== 0){
+        books = allBooks?.data?.filter(
+        (item: { publicationYear: number }) => item.publicationYear > yearRange
+      );
+    }
+     else {
+        books = allBooks?.data;
+    }
+  
+    const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target.value);
+    };
+  
+      // books = searchTerm ? searchedBooks : allBooks;
+
     const handleAddWishListBook = (book: IBook) => {
       const newWishListBook = {
         bookId: book._id,
@@ -75,11 +105,79 @@ const AllBook = () => {
    toast.error('Already Added in readinglist',{id:"addToReadingList"})
   }
   },[isSuccess,isError,readingSucess,readingError])
+
+
+
+  const handleSetGenre = (value: string) => {
+    dispatch(setGenre(value));
+};
+
+const [sliderValue, setSliderValue] = useState(2000); // Initial value for the slider
+
+const handleSliderChange = (event:any) => {
+  const value = event.target.value; // Get the value from the event object
+  setSliderValue(value); 
+  dispatch(setYearRange(value))
+  console.log(value);// Update the state with the new value
+};
+
+// const { minNumber, maxNumber } = books?.reduce(
+//   (result:any, obj:any) => {
+//     result.minNumber = Math.min(result.minNumber, obj.publicationYear);
+//     result.maxNumber = Math.max(result.maxNumber, obj.publicationYear);
+//     return result;
+//   },
+//   { minNumber: Number.MAX_SAFE_INTEGER, maxNumber: Number.MIN_SAFE_INTEGER }
+// );
+
+// console.log('Min Number:', minNumber);
+// console.log('Max Number:', maxNumber);
+
     return (   
   <>
-
-<section 
-    className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-10 mt-10 mb-5">
+ <input type="text" value={searchTerm} onChange={handleSearch} placeholder="Search books..." />
+      {isFetchingAllBooks || isFetchingSearchedBooks ? (
+        <div>Loading...</div>
+      ) : (
+  <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
+      <div className="col-span-3 z mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start sticky top-16 h-[calc(100vh-80px)]">
+        <div>
+          <h1 className="text-2xl uppercase">Availability</h1>
+          <div className="space-y-4">
+                <h4>Genre :</h4>
+                <div className="flex flex-wrap gap-2.5">
+                    {genreConstant?.map(genre => (
+                        <div className="px-2 py-1 bg-secondary/30 rounded-lg flex justify-center items-center gap-2">
+                            <Checkbox
+                                color="brown"
+                                ripple={false}
+                                containerProps={{ className: 'p-0' }}
+                                onClick={() => handleSetGenre(genre)}
+                            />
+                            {genre}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+        <div className="space-y-3 ">
+          <h3>Publication Year</h3>
+          <div className="max-w-xl">
+          <input
+        type="range"
+        min={2000}
+        max={2050}
+        value={sliderValue}
+        onChange={handleSliderChange}
+      />
+      <p>Selected Year: {sliderValue}</p>
+          </div>
+          
+        </div>
+      </div>
+      <div className="col-span-9 grid grid-cols-1 gap-10 pb-20">
+      <section 
+    className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-10 mt-10 mb-5">
 
   
   {books?.map((book:IBook)=> <>
@@ -150,6 +248,9 @@ const AllBook = () => {
     
 
 </section>
+      </div>
+    </div>
+      )}
 
   </>
      

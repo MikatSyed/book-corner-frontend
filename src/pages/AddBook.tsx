@@ -1,4 +1,4 @@
-import { useAddBookMutation } from "@/redux/features/book/bookSlice";
+import { useAddBookMutation } from "@/redux/features/book/bookApi";
 import { useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -74,7 +74,7 @@ const AddBook = () => {
             <option value='Mystery'>Mystery</option>
             <option value='Thriller'>Thriller</option>
             <option value='Romance'>Romance</option>
-            <option value='Science fiction'>Science Fiction</option>
+            <option value='Science fiction'>Science iction</option>
             <option value='Fantasy'>Fantasy</option>
             <option value='Crime'>Crime</option>
             <option value='Horror'>Horror</option>

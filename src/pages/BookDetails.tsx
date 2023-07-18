@@ -1,4 +1,4 @@
-import { useDeleteBookMutation, useSingleBookQuery } from "@/redux/features/book/bookSlice";
+import { useDeleteBookMutation, useSingleBookQuery } from "@/redux/features/book/bookApi";
 import { useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 import { useParams,Link, useNavigate } from "react-router-dom"
@@ -9,7 +9,7 @@ const BookDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate()
     const { user } = useAppSelector((state) => state.user);
-    const { data: bookData } = useSingleBookQuery(id);
+    const { data: bookData } = useSingleBookQuery(id,{refetchOnMountOrArgChange: true});
     const [deleteBook, { isSuccess }] = useDeleteBookMutation();
 
      const handleDelete =()=> {

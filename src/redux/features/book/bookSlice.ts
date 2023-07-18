@@ -1,79 +1,38 @@
-import { api } from '@/redux/api/apiSlice';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-const bookApi = api.injectEndpoints({
- 
-  endpoints: (builder) => ({
-  
-    addBook: builder.mutation({
-      query: ( data ) => ({
-        url: '/book',
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: ["Books"] 
-    }),
-    getBooks: builder.query({
-      query: () => ({
-        url: '/books',
-        method: 'GET',
-        
-      }), 
-      providesTags:["Books"]      
-    }),
-    getLatestBooks: builder.query({
-      query: () => ({
-        url: '/books/latest',
-        method: 'GET',
-        
-      }), 
-      providesTags:["Books"]      
-    }),
-
-    singleBook: builder.query({
-        query: (id) => `/book/details/${id}`,
-        providesTags:["Books"]     
-      }),
-    updateBook: builder.mutation({
-        query: ({id,...bookData})=> ({
-        url: `/book/${id}`,
-        method: 'PATCH',
-        body:bookData
-        }),
-        invalidatesTags: ["Books"] 
-        
-    }),
-    deleteBook: builder.mutation({
-        query: (id)=> ({
-        url: `/book/${id}`,
-        method: 'DELETE',
-       
-        }),
-        invalidatesTags: ["Books"] 
-        
-    }),
-    postComment: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/comment/${id}`,
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: ['Comments'],
-    }),
-    getComment: builder.query({
-      query: (id) => `/comment/${id}`,
-      providesTags: ['Comments'],
-    }),
+interface IBook {
+    genres: string[];
+    yearRange: number;
    
-  }),
+}
+
+const initialState: IBook = {
+    genres: [],
+    yearRange: 0,
+  
+};
+
+const bookSlice = createSlice({
+    name: 'book',
+    initialState,
+    reducers: {
+        setGenre: (state, action: PayloadAction<string>) => {
+            const isExist = state.genres.find(genre => genre === action.payload);
+
+            if (isExist) {
+                state.genres = state.genres.filter(genre => genre !== action.payload);
+            } else {
+                state.genres.push(action.payload);
+            }
+        },
+        setYearRange: (state, action: PayloadAction<number>) => {
+            state.yearRange = action.payload;
+          },
+      
+    },
 });
 
-export const {
-useAddBookMutation,
-useGetBooksQuery,
-useGetLatestBooksQuery,
-useSingleBookQuery,
-useUpdateBookMutation,
-useDeleteBookMutation,
-usePostCommentMutation,
-useGetCommentQuery
-} = bookApi;
+export const { setGenre,setYearRange } = bookSlice.actions;
+
+export default bookSlice.reducer;
