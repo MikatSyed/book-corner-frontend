@@ -1,4 +1,4 @@
-import { PencilIcon } from "@heroicons/react/24/solid";
+
 import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
   Card,
@@ -6,18 +6,13 @@ import {
   Typography,
   Button,
   CardBody,
-  Chip,
-  CardFooter,
   Avatar,
-  IconButton,
-  Tooltip,
   Input,
-  Checkbox,
+ 
 } from "@material-tailwind/react";
 import { useGetReadingListQuery, useUpdateReadingListMutation } from "@/redux/features/cart/readingListApi";
 import { IBook } from "@/types/globalTypes";
 import { Switch } from "@material-tailwind/react";
-import { useState } from "react";
 import { useAppSelector } from "@/redux/hook";
  
 const TABLE_HEAD = ["Title", "Price", "Author","Genre", "Publication Date", "Plan To Read", "Reading", "Finished"];

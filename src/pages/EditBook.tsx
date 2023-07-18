@@ -28,7 +28,6 @@ const EditBook = () => {
         register,
         handleSubmit,
         formState: { errors },
-        reset
       } = useForm<EditBookFormInputs>();
     
       useEffect(()=>{
