@@ -34,7 +34,7 @@ export default function Navbar() {
       <nav aria-label="Header Navigation" className="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0">
         <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/">Home</a></li>
-          <li className=""><a className="text-gray-600 hover:text-blue-600" href="/all-books">All Book</a></li>
+          <li className=""><a className="text-gray-600 hover:text-blue-600" href="/books">All Book</a></li>
           {user.email && (
             <> 
           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/wishlist">Wishlist</a></li>
@@ -47,7 +47,7 @@ export default function Navbar() {
           )}
           {user.email && (
             <> 
-           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/add-book">Add New Book</a></li>
+           <li className=""><a className="text-gray-600 hover:text-blue-600" href="/addBook">Add New Book</a></li>
            </>
           )}
 

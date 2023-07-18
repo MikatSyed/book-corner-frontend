@@ -20,9 +20,9 @@ export default function Signup() {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    
   } = useForm<SignInFormInputs>();
-  const { user, isLoading } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   
   
   const onSubmit = (data: SignInFormInputs) => {

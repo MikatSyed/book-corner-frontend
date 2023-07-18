@@ -1,4 +1,4 @@
-import { useRegisterMutation } from '@/redux/features/user/userApi';
+
 import { createUser } from '@/redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { useEffect } from 'react';

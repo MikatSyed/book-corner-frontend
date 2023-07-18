@@ -14,7 +14,6 @@ import {
 } from "@heroicons/react/24/solid";
 import { IBook } from "@/types/globalTypes";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { addTowishList } from "@/redux/features/cart/wishlistSlice";
 import { toast } from "react-hot-toast";
 import { useAddToWishListMutation } from "@/redux/features/cart/wishListApi";
 import { useEffect, useState } from "react";
@@ -29,7 +28,7 @@ const AllBook = () => {
     const [addToReadingList,{isSuccess:readingSucess,isError:readingError}] = useAddToReadingListMutation();
     const { user } = useAppSelector((state) => state.user);
     const [searchTerm, setSearchTerm] = useState('');
-    const { data: searchedBooks, isFetching: isFetchingSearchedBooks } = useSearchBooksQuery(searchTerm);
+    const {  isFetching: isFetchingSearchedBooks } = useSearchBooksQuery(searchTerm);
     const { genres,yearRange } = useAppSelector(state => state.book);
     console.log({yearRange});
     console.log(genres);

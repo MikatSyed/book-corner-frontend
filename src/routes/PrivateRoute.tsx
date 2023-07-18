@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/redux/hook';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 interface IProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface IProps {
 
 export default function PrivateRoute({ children, path }: IProps) {
   const { user, isLoading } = useAppSelector((state) => state.user);
-  const location = useLocation();
+
 
   if (isLoading) {
     return <p>Loading...</p>;

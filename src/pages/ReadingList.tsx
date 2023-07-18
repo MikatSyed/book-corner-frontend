@@ -86,7 +86,7 @@ export default function ReadingList() {
           </thead>
           <tbody>
             {filterData?.map(
-              (book:IBook,index:any) => {
+              (book:IBook) => {
                 return (
                   <tr key={book?._id}>
                     <td className="p-4 border-b border-blue-gray-50">

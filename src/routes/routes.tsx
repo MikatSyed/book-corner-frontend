@@ -24,11 +24,11 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/add-book',
+        path: '/addBook',
         element: <PrivateRoute path="/add-book"> <AddBook /></PrivateRoute>,
       },
       {
-        path: '/all-books',
+        path: '/books',
         element: <AllBook />,
       },
       {
