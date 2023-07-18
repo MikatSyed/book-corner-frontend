@@ -4,23 +4,13 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
-  Button,
   Tooltip,
   IconButton,
-  Input,
   Checkbox,
-  Slider,
 } from "@material-tailwind/react";
 import {
-  BanknotesIcon,
-  StarIcon,
   HeartIcon,
-  WifiIcon,
-  HomeIcon,
-  TvIcon,
-  FireIcon,
 } from "@heroicons/react/24/solid";
 import { IBook } from "@/types/globalTypes";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -121,17 +111,7 @@ const handleSliderChange = (event:any) => {
   console.log(value);// Update the state with the new value
 };
 
-// const { minNumber, maxNumber } = books?.reduce(
-//   (result:any, obj:any) => {
-//     result.minNumber = Math.min(result.minNumber, obj.publicationYear);
-//     result.maxNumber = Math.max(result.maxNumber, obj.publicationYear);
-//     return result;
-//   },
-//   { minNumber: Number.MAX_SAFE_INTEGER, maxNumber: Number.MIN_SAFE_INTEGER }
-// );
 
-// console.log('Min Number:', minNumber);
-// console.log('Max Number:', maxNumber);
 
     return (   
   <>

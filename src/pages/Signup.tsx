@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-// type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+
 
 interface SignupFormInputs {
   name: string;

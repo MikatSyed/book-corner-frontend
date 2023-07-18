@@ -1,7 +1,6 @@
 import { useDeleteBookMutation, useSingleBookQuery } from "@/redux/features/book/bookApi";
 import { useAppSelector } from "@/redux/hook";
-import { useEffect } from "react";
-import { useParams,Link, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import Swal from 'sweetalert2'
 import BookReview from "./BookReview";
 
@@ -10,7 +9,7 @@ const BookDetails = () => {
     const navigate = useNavigate()
     const { user } = useAppSelector((state) => state.user);
     const { data: bookData } = useSingleBookQuery(id,{refetchOnMountOrArgChange: true});
-    const [deleteBook, { isSuccess }] = useDeleteBookMutation();
+    const [deleteBook] = useDeleteBookMutation();
 
      const handleDelete =()=> {
       Swal.fire({
