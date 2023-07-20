@@ -28,12 +28,12 @@ const AllBook = () => {
     const [addToReadingList,{isSuccess:readingSucess,isError:readingError}] = useAddToReadingListMutation();
     const { user } = useAppSelector((state) => state.user);
     const [searchTerm, setSearchTerm] = useState('');
-    const {  isFetching: isFetchingSearchedBooks } = useSearchBooksQuery(searchTerm);
+    const { data :searchResult ,isFetching: isFetchingSearchedBooks } = useSearchBooksQuery(searchTerm);
     const { genres,yearRange } = useAppSelector(state => state.book);
     console.log({yearRange});
-    console.log(genres);
     let books;
-    if (genres?.length !== 0 ) {
+  
+     if (genres?.length !== 0 ) {
        
         books = allBooks?.data?.filter((book: { genre: string }) => genres?.includes(book?.genre));
         console.log(books?.data);
@@ -41,6 +41,8 @@ const AllBook = () => {
         books = allBooks?.data?.filter(
         (item: { publicationYear: number }) => item.publicationYear > yearRange
       );
+    } else if(searchResult){
+      books = searchResult?.data;
     }
      else {
         books = allBooks?.data;
@@ -114,7 +116,9 @@ const handleSliderChange = (event:any) => {
 
     return (   
   <>
+ <div className="flex justify-center m-10">
  <input type="text" value={searchTerm} onChange={handleSearch} placeholder="Search books..." />
+ </div>
       {isFetchingAllBooks || isFetchingSearchedBooks ? (
         <div>Loading...</div>
       ) : (

@@ -22,7 +22,7 @@ const bookApi = api.injectEndpoints({
     }),
     
     searchBooks: builder.query({
-      query: (searchTerm) => `/search?q=${searchTerm}`,
+      query: (searchTerm) => `/books/search?searchTerm=${searchTerm}`,
     }),
 
     getLatestBooks: builder.query({
