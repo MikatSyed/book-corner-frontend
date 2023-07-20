@@ -10,7 +10,6 @@ import {
 } from "@material-tailwind/react";
 import { IBook } from "@/types/globalTypes";
 import { useAppSelector } from "@/redux/hook";
-
 import { toast } from "react-hot-toast";
 import { useAddToWishListMutation } from "@/redux/features/cart/wishListApi";
 import { useEffect } from "react";

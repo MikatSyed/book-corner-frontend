@@ -1,1 +1,1 @@
-export const genreConstant = ['Mystery', 'Thriller', 'Science fiction', 'Fantasy', 'Crime', 'Horror', 'Drama', 'Comedy', 'Travel'];
+export const genreConstant = ['Mystery', 'Thriller', 'Fiction', 'Fantasy', 'Crime', 'Horror', 'Drama', 'Comedy', 'Travel'];

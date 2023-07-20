@@ -8,9 +8,10 @@ import {
   Tooltip,
   IconButton,
   Checkbox,
+  Input,
 } from "@material-tailwind/react";
 import {
-  HeartIcon,
+  HeartIcon, MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import { IBook } from "@/types/globalTypes";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -23,7 +24,7 @@ import { setGenre,setYearRange } from "@/redux/features/book/bookSlice";
 
 const AllBook = () => {
   const dispatch = useAppDispatch();
-    const { data:allBooks ,isFetching: isFetchingAllBooks} = useGetBooksQuery(undefined)
+    const { data:allBooks ,isFetching: isFetchingAllBooks} = useGetBooksQuery(undefined,{refetchOnMountOrArgChange:true})
     const [addToWishList,{isSuccess,isError}] = useAddToWishListMutation();
     const [addToReadingList,{isSuccess:readingSucess,isError:readingError}] = useAddToReadingListMutation();
     const { user } = useAppSelector((state) => state.user);
@@ -32,7 +33,7 @@ const AllBook = () => {
     const { genres,yearRange } = useAppSelector(state => state.book);
     console.log({yearRange});
     let books;
-  
+    books = allBooks?.data;
      if (genres?.length !== 0 ) {
        
         books = allBooks?.data?.filter((book: { genre: string }) => genres?.includes(book?.genre));
@@ -117,17 +118,20 @@ const handleSliderChange = (event:any) => {
     return (   
   <>
  <div className="flex justify-center m-10">
- <input type="text" value={searchTerm} onChange={handleSearch} placeholder="Search books..." />
+ {/* <input type="text" value={searchTerm} onChange={handleSearch} placeholder="Search books..." /> */}
+             <div className="w-full md:w-72">
+              <Input placeholder="Search Book"  value={searchTerm} onChange={handleSearch} icon={<MagnifyingGlassIcon className="h-5 w-5" />} />
+            </div>
  </div>
       {isFetchingAllBooks || isFetchingSearchedBooks ? (
         <div>Loading...</div>
       ) : (
   <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
-      <div className="col-span-3 z mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start sticky top-16 h-[calc(100vh-80px)]">
+      <div className="lg:col-span-3 col-span-12 lg:mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start  top-16 lg:h-[calc(100vh-80px)]">
         <div>
-          <h1 className="text-2xl uppercase">Availability</h1>
+          <h4 className=" uppercase">Availability</h4>
           <div className="space-y-4">
-                <h4>Genre :</h4>
+                <h4>Genre </h4>
                 <div className="flex flex-wrap gap-2.5">
                     {genreConstant?.map(genre => (
                         <div className="px-2 py-1 bg-secondary/30 rounded-lg flex justify-center items-center gap-2">
@@ -158,7 +162,7 @@ const handleSliderChange = (event:any) => {
           
         </div>
       </div>
-      <div className="col-span-9 grid grid-cols-1 gap-10 pb-20">
+      <div className="md:col-span-9 col-span-12 grid grid-cols-1 gap-10 pb-20 ">
       <section 
     className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-10 mt-10 mb-5">
 
