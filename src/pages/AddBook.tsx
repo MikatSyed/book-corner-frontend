@@ -1,4 +1,4 @@
-import { useAddBookMutation, useGetBooksQuery } from "@/redux/features/book/bookApi";
+import { useAddBookMutation } from "@/redux/features/book/bookApi";
 import { useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -25,7 +25,6 @@ const AddBook = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
         reset
       } = useForm<addBookFormInputs>();
     

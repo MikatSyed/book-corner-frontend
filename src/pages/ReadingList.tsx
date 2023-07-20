@@ -1,13 +1,12 @@
 
-import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
   Card,
   CardHeader,
   Typography,
-  Button,
+ 
   CardBody,
   Avatar,
-  Input,
+
  
 } from "@material-tailwind/react";
 import { useGetReadingListQuery, useUpdateReadingListMutation } from "@/redux/features/cart/readingListApi";

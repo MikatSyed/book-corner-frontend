@@ -2,12 +2,11 @@ import { auth } from "@/lib/firebase";
 import { setUser } from "@/redux/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { signOut } from "firebase/auth";
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Transition } from '@headlessicons/react';
 import { AiOutlineMenu,AiOutlineClose } from 'react-icons/ai';
-import { GrClose } from 'react-icons/gr';
-// import { MenuIcon, XIcon } from '@heroicons/react/outline'
+
+
 
 
 export default function Navbar() {
