@@ -1,4 +1,4 @@
-import { useGetBooksQuery, useSearchBooksQuery } from "@/redux/features/book/bookApi";
+import { useGetBooksQuery } from "@/redux/features/book/bookApi";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -24,14 +24,16 @@ import { setGenre,setYearRange } from "@/redux/features/book/bookSlice";
 
 const AllBook = () => {
   const dispatch = useAppDispatch();
-    const { data:allBooks ,isFetching: isFetchingAllBooks} = useGetBooksQuery(undefined,{refetchOnMountOrArgChange:true})
+  const [searchTerm, setSearchTerm] = useState('');
+  const queryOptions = { searchTerm: searchTerm, sort: '' }
+    const { data:allBooks ,isFetching: isFetchingAllBooks} = useGetBooksQuery(queryOptions)
+    console.log(allBooks);
     const [addToWishList,{isSuccess,isError}] = useAddToWishListMutation();
     const [addToReadingList,{isSuccess:readingSucess,isError:readingError}] = useAddToReadingListMutation();
     const { user } = useAppSelector((state) => state.user);
-    const [searchTerm, setSearchTerm] = useState('');
-    const { data :searchResult ,isFetching: isFetchingSearchedBooks } = useSearchBooksQuery(searchTerm);
     const { genres,yearRange } = useAppSelector(state => state.book);
-    console.log({yearRange});
+   
+
     let books;
     books = allBooks?.data;
      if (genres?.length !== 0 ) {
@@ -42,12 +44,14 @@ const AllBook = () => {
         books = allBooks?.data?.filter(
         (item: { publicationYear: number }) => item.publicationYear > yearRange
       );
-    } else if(searchResult){
-      books = searchResult?.data;
-    }
+    } 
      else {
         books = allBooks?.data;
     }
+
+    useEffect(()=>{
+
+    },[queryOptions])
   
     const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(e.target.value);
@@ -123,7 +127,7 @@ const handleSliderChange = (event:any) => {
               <Input placeholder="Search Book"  value={searchTerm} onChange={handleSearch} icon={<MagnifyingGlassIcon className="h-5 w-5" />} />
             </div>
  </div>
-      {isFetchingAllBooks || isFetchingSearchedBooks ? (
+      {isFetchingAllBooks  ? (
         <div>Loading...</div>
       ) : (
   <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">

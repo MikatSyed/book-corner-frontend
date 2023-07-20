@@ -12,16 +12,20 @@ import { useNavigate } from 'react-router-dom'
 export default function WishList() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(true)
+  console.log(open);
   const { data: wishListItems } = useGetWistListQuery(undefined)
   const { user } = useAppSelector((state) => state.user);
   const [removedFromWishList] = useRemoveFromWishListMutation();
 
   const filterData  = wishListItems?.data?.filter((book:IBook)=> book?.wishlistedBy === user?.email)
-  
+
+if(open === false){
+  navigate('/allBook')
+}
 
 const handleClick = () =>{
     setOpen(false)
-    navigate('/')
+    navigate('/allBook')
 }
 
   return (

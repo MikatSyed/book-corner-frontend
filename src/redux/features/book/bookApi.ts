@@ -13,11 +13,11 @@ const bookApi = api.injectEndpoints({
       invalidatesTags: ["Books"] 
     }),
     getBooks: builder.query({
-      query: () => ({
-        url: '/books',
+       query: (queryOptions) => ({
+        url: `/books?searchTerm=${queryOptions.searchTerm}&sort=${queryOptions.sort}`,
         method: 'GET',   
       }), 
-      providesTags:["Books"]      
+      providesTags:["Books"]    
     }),
     
     searchBooks: builder.query({
@@ -29,8 +29,8 @@ const bookApi = api.injectEndpoints({
         url: '/books/latest',
         method: 'GET',
         
+        providesTags:["Books"]      
       }), 
-      providesTags:["Books"]      
     }),
 
     singleBook: builder.query({

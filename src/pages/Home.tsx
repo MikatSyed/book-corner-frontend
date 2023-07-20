@@ -1,4 +1,4 @@
-import { useGetLatestBooksQuery } from "@/redux/features/book/bookApi";
+import { useGetBooksQuery } from "@/redux/features/book/bookApi";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -12,18 +12,25 @@ import { IBook } from "@/types/globalTypes";
 import { useAppSelector } from "@/redux/hook";
 import { toast } from "react-hot-toast";
 import { useAddToWishListMutation } from "@/redux/features/cart/wishListApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAddToReadingListMutation } from "@/redux/features/cart/readingListApi";
 import Footer from "@/layouts/Footer";
 
 import Header from "@/layouts/Header";
 
 const AllBook = () => {
-    const { data} = useGetLatestBooksQuery(undefined)
+  const [searchTerm] = useState('');
+  const queryOptions = { searchTerm: searchTerm, sort: 10 }
+  const { data , isFetching: isFetchingAllBooks} = useGetBooksQuery(queryOptions)
     const books = data?.data;
     const [addToWishList,{isSuccess,isError}] = useAddToWishListMutation();
     const [addToReadingList,{isSuccess:readingSucess,isError:readingError}] = useAddToReadingListMutation();
     const { user } = useAppSelector((state) => state.user);
+
+    useEffect(()=>{
+
+    },[queryOptions])
+
     const handleAddWishListBook = (book: IBook) => {
       const newWishListBook = {
         bookId: book._id,
@@ -69,7 +76,10 @@ const AllBook = () => {
     return (   
   <>
   <Header/>
- <div className="col-span-10 grid grid-cols-1 gap-10 pb-20">
+  {isFetchingAllBooks  ? (
+        <div>Loading...</div>
+      ) : ( 
+        <div className="col-span-10 grid grid-cols-1 gap-10 pb-20">
       <section 
     className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-10 mt-10 mb-5">
 
@@ -143,6 +153,8 @@ const AllBook = () => {
 
 </section>
       </div>
+      ) }
+ 
 <Footer/>
   </>
      
