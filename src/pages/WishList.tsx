@@ -29,7 +29,8 @@ const handleClick = () =>{
 }
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+   <div className=''>
+     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
@@ -40,7 +41,7 @@ const handleClick = () =>{
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity main" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
@@ -125,5 +126,6 @@ const handleClick = () =>{
         </div>
       </Dialog>
     </Transition.Root>
+   </div>
   )
 }

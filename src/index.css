@@ -82,3 +82,10 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }
+
+@media screen and (min-width: 1400px) {
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}

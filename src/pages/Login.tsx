@@ -42,7 +42,7 @@ useEffect(()=>{
 },[user])
 
   return (
-    <>
+    <div className='main'>
 <div className="flex flex-wrap">
   <div className="flex w-full flex-col md:w-1/2">
    
@@ -87,6 +87,6 @@ useEffect(()=>{
   </div>
 </div>
 
-    </>
+    </div>
   );
 }

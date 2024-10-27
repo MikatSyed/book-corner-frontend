@@ -38,7 +38,7 @@ export default function Signup() {
   },[user])
   
   return (
-    <>
+    <div className='main'>
 <div className="flex flex-wrap">
   <div className="flex w-full flex-col md:w-1/2">
    
@@ -86,6 +86,6 @@ export default function Signup() {
   </div>
 </div>
 
-    </>
+    </div>
   );
 }
