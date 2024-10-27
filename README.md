@@ -1,4 +1,5 @@
 Books Corner 📚
+
 Welcome to Books Corner, a simple and clean web application to explore, manage, and catalog books. Built with React, Redux, and TypeScript, this app provides a user-friendly interface for book enthusiasts to search, filter, add, and review books in a centralized catalog.
 
 
