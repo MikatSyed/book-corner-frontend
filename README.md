@@ -14,7 +14,7 @@ Clean layout with footer for easy navigation.
 Authentication
 
 Sign Up and Sign In: Users can register and log in with unique email and password.
-Firebase or custom authentication can be used.
+Custom authentication can be used.
 Logout functionality: After logging in, the navbar displays a Logout button for secure session management.
 
 All Books Page
